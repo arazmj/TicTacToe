@@ -35,8 +35,8 @@ public class SimpleMaxMinPlayer implements Player {
 
         if (winner == seed) return 10;
         if (winner == seed.opponent()) return -10;
-        if (winner == Seed.NONE && availableMoves.isEmpty()) return 0;
-        assert (winner == Seed.NONE);
+        if (winner == null && availableMoves.isEmpty()) return 0;
+        assert (winner == null);
 
         for (Point move : availableMoves) {
             s++;

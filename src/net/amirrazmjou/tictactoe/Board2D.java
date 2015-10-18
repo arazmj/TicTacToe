@@ -5,21 +5,13 @@ import java.util.List;
 
 class Board2D implements Board {
 
+    protected Seed cells[][];
+
     public Board2D(int size) {
         cells = new Seed[size][size];
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++)
                 cells[i][j] = Seed.EMPTY;
-    }
-
-    protected Seed cells[][];
-
-    private char getCell(int x, int y) {
-        Seed cell = cells[y][x];
-        if (cell == Seed.CROSS) return 'X';
-        else if (cell == Seed.NOUGHT) return 'O';
-        else if (cell == Seed.EMPTY) return ' ';
-        return '?';
     }
 
     @Override
@@ -57,7 +49,7 @@ class Board2D implements Board {
         if (d1b) return d1;
         if (d2b) return d2;
 
-        return Seed.NONE;
+        return null;
     }
 
     public List<Point> getAvailableMoves() {
@@ -76,7 +68,7 @@ class Board2D implements Board {
         String s = "";
         for (int x = 0; x < cells.length; x++)
             for (int y = 0; y < cells.length; y++)
-                s += String.format("%c%c", getCell(x, y),
+                s += String.format("%s%c", getCell(new Point(x, y)),
                         y < cells.length  - 1 ? '|' : '\n');
         return s;
     }

@@ -6,7 +6,17 @@ package net.amirrazmjou.tictactoe;
 
 
 enum Seed {
-    NOUGHT, CROSS, EMPTY, NONE;
+    EMPTY(" "), NOUGHT("O"), CROSS("X");
+    private final String symbol;
+    private Seed(String s) {
+        symbol = s;
+    }
+
+    @Override
+    public String toString() {
+        return symbol;
+    }
+
     public Seed opponent() {
         if (this == NOUGHT) return CROSS;
         else if (this == CROSS) return NOUGHT;

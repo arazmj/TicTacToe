@@ -35,8 +35,8 @@ public class AlphaBetaMaxMinPlayer implements Player {
 
         if (winner == seed) return 10;
         if (winner == seed.opponent()) return -10;
-        if (winner == Seed.NONE && availableMoves.isEmpty()) return 0;
-        assert (winner == Seed.NONE);
+        if (winner == null && availableMoves.isEmpty()) return 0;
+        assert (winner == null);
 
         for (Point move : availableMoves) {
             s++;
@@ -50,7 +50,7 @@ public class AlphaBetaMaxMinPlayer implements Player {
                 if (maximizer)
                     alpha = score;
                 else beta = score;
-                if (alpha > beta) {
+                if (alpha >= beta) {
                     board.setCell(move, Seed.EMPTY);
                     return score;
                 }
