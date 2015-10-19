@@ -31,19 +31,56 @@ public class Board3D implements Board {
 
     @Override
     public Seed winner() {
-        for (int i = 0; i < cells.length; i++)
+        // TODO: Can you write a general purpose winner function for a
+        // TODO: hypercube with arbitrary dimension number
+        for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
                 Seed r = cells[j][0][i];
                 Seed c = cells[0][j][i];
+                Seed l = cells[j][i][0];
                 boolean rb = r != Seed.EMPTY;
                 boolean cb = c != Seed.EMPTY;
+                boolean lb = l != Seed.EMPTY;
+
                 for (int k = 0; k < cells.length; k++) {
                     rb = rb && r == cells[j][k][i];
                     cb = cb && c == cells[k][j][i];
+                    lb = lb && l == cells[j][i][k];
                 }
                 if (rb) return r;
                 if (cb) return c;
+                if (lb) return l;
             }
+
+            Seed d1 = cells[i][0][0];
+            Seed d2 = cells[i][0][cells.length - 1];
+            Seed d3 = cells[0][i][0];
+            Seed d4 = cells[0][i][cells.length - 1];
+            Seed d5 = cells[0][0][i];
+            Seed d6 = cells[0][cells.length - 1][i];
+            boolean d1b = d1 != Seed.EMPTY;
+            boolean d2b = d2 != Seed.EMPTY;
+            boolean d3b = d3 != Seed.EMPTY;
+            boolean d4b = d4 != Seed.EMPTY;
+            boolean d5b = d5 != Seed.EMPTY;
+            boolean d6b = d6 != Seed.EMPTY;
+
+            for (int c = 0; c < cells.length; c++) {
+                d1b = d1b && d1 == cells[i][c][c];
+                d2b = d2b && d2 == cells[i][cells.length - 1 - c][c];
+                d3b = d3b && d3 == cells[c][i][c];
+                d4b = d4b && d4 == cells[cells.length - 1 - c][i][c];
+                d5b = d5b && d5 == cells[c][c][i];
+                d6b = d6b && d6 == cells[cells.length - 1 - c][c][i];
+            }
+            if (d1b) return d1;
+            if (d2b) return d2;
+            if (d3b) return d3;
+            if (d4b) return d4;
+            if (d5b) return d5;
+            if (d6b) return d6;
+        }
+
         return null;
     }
 
