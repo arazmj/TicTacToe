@@ -83,7 +83,41 @@ public class Board3DTest extends TestCase {
             throw new Exception("No winner on simple diagonal arrangement.");
 
 
-        System.out.println(board8);
+        Board3D board9 = new Board3D(3);
+        board9.setCell(new Point(0, 0, 0), Seed.NOUGHT);
+        board9.setCell(new Point(1, 1, 1), Seed.NOUGHT);
+        board9.setCell(new Point(2, 2, 2), Seed.NOUGHT);
+
+        if (board9.winner() != Seed.NOUGHT)
+            throw new Exception("No winner on simple diagonal arrangement.");
+
+
+        Board3D board10 = new Board3D(3);
+        board10.setCell(new Point(0, 0, 2), Seed.NOUGHT);
+        board10.setCell(new Point(1, 1, 1), Seed.NOUGHT);
+        board10.setCell(new Point(2, 2, 0), Seed.NOUGHT);
+
+        if (board10.winner() != Seed.NOUGHT)
+            throw new Exception("No winner on simple diagonal arrangement.");
+
+
+        Board3D board11 = new Board3D(3);
+        board11.setCell(new Point(0, 2, 2), Seed.NOUGHT);
+        board11.setCell(new Point(1, 1, 1), Seed.NOUGHT);
+        board11.setCell(new Point(2, 0, 0), Seed.NOUGHT);
+
+        if (board11.winner() != Seed.NOUGHT)
+            throw new Exception("No winner on simple diagonal arrangement.");
+
+        Board3D board12 = new Board3D(3);
+        board12.setCell(new Point(0, 2, 0), Seed.NOUGHT);
+        board12.setCell(new Point(1, 1, 1), Seed.NOUGHT);
+        board12.setCell(new Point(2, 0, 2), Seed.NOUGHT);
+//
+//        if (board12.winner() != Seed.NOUGHT)
+//            throw new Exception("No winner on simple diagonal arrangement.");
+
+        System.out.println(board12);
 
     }
 }

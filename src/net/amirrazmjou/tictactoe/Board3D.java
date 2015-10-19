@@ -81,6 +81,29 @@ public class Board3D implements Board {
             if (d6b) return d6;
         }
 
+        Seed d1 = cells[0][0][0];
+        Seed d2 = cells[cells.length - 1][0][0];
+        Seed d3 = cells[0][cells.length - 1][0];
+        Seed d4 = cells[cells.length - 1][cells.length - 1][0];
+
+        boolean d1b = d1 != Seed.EMPTY;
+        boolean d2b = d2 != Seed.EMPTY;
+        boolean d3b = d3 != Seed.EMPTY;
+        boolean d4b = d4 != Seed.EMPTY;
+
+        for (int c = 0; c < cells.length; c++) {
+            d1b = d1b && d1 == cells[c][c][c];
+            d2b = d2b && d2 == cells[cells.length - 1 - c][c][c];
+
+            d3b = d3b && d3 == cells[c][cells.length - 1 - c][c];
+            d4b = d4b && d4 == cells[cells.length - 1 - c][cells.length - 1 - c][c];
+
+        }
+        if (d1b) return d1;
+        if (d2b) return d2;
+        if (d3b) return d3;
+        if (d4b) return d4;
+
         return null;
     }
 
