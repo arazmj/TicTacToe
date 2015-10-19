@@ -29,7 +29,7 @@ class Board2D implements Board {
             Seed r = cells[x][0];
             Seed c = cells[0][x];
             boolean rb = r != Seed.EMPTY;
-            boolean cb = c != Seed.EMPTY;;
+            boolean cb = c != Seed.EMPTY;
             for (int y = 0; y < cells.length; y++) {
                 rb = rb && r == cells[x][y];
                 cb = cb && c == cells[y][x];
