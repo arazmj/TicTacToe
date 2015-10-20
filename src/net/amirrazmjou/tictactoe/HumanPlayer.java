@@ -19,10 +19,19 @@ public class HumanPlayer implements Player {
         Point move;
 
         do {
-            System.out.print("Enter x, y of your move: ");
-            int x = scanner.nextInt();
-            int y = scanner.nextInt();
-            move = new Point(x, y);
+            if (Board3D.class.isInstance(board)) {
+                System.out.print("Enter x, y, z of your move: ");
+                int x = scanner.nextInt();
+                int y = scanner.nextInt();
+                int z = scanner.nextInt();
+                move = new Point(x, y, z);
+            }
+            else {
+                System.out.print("Enter x, y of your move: ");
+                int x = scanner.nextInt();
+                int y = scanner.nextInt();
+                move = new Point(x, y);
+            }
             if (board.getCell(move) == Seed.EMPTY)
                 break;
             else

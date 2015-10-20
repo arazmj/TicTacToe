@@ -1,7 +1,8 @@
-package net.amirrazmjou.tictactoe;
+package net.amirrazmjou.tictactoe.test;
 
 import junit.extensions.ExceptionTestCase;
 import junit.framework.TestCase;
+import net.amirrazmjou.tictactoe.*;
 
 /**
  * Created by Amir Razmjou on 10/17/15.
@@ -113,9 +114,9 @@ public class Board3DTest extends TestCase {
         board12.setCell(new Point(0, 2, 0), Seed.NOUGHT);
         board12.setCell(new Point(1, 1, 1), Seed.NOUGHT);
         board12.setCell(new Point(2, 0, 2), Seed.NOUGHT);
-//
-//        if (board12.winner() != Seed.NOUGHT)
-//            throw new Exception("No winner on simple diagonal arrangement.");
+
+        if (board12.winner() != Seed.NOUGHT)
+            throw new Exception("No winner on simple diagonal arrangement.");
 
         System.out.println(board12);
 

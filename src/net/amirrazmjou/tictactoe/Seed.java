@@ -5,12 +5,16 @@ package net.amirrazmjou.tictactoe;
  */
 
 
-enum Seed {
-    EMPTY(" "), NOUGHT("O"), CROSS("X");
+public enum Seed {
+    EMPTY(" ", 0), NOUGHT("O", 1), CROSS("X", 2);
     private final String symbol;
-    private Seed(String s) {
+    private final int i;
+    private Seed(String s, int i) {
         symbol = s;
+        this.i = i;
     }
+
+    public int intValue() { return i; }
 
     @Override
     public String toString() {

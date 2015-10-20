@@ -13,8 +13,12 @@ public interface Board {
 
     List<Point> getAvailableMoves();
 
+    int getMaxMoves();
+
     @Override
     String toString();
+
+
 
     boolean isFull();
 }

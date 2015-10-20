@@ -15,7 +15,7 @@ public class AlphaBetaMaxMinPlayer implements Player {
         this.board = board;
     }
 
-    int s;
+    long s;
     @Override
     public Point move() {
         Point nextMove = new Point();
@@ -27,19 +27,28 @@ public class AlphaBetaMaxMinPlayer implements Player {
     }
 
     private int move(Seed currentSeed, Point nextMove, Integer alpha, Integer beta) {
-        Seed winner = board.winner();
         List<Point> availableMoves = board.getAvailableMoves();
+        ////////////////////////////
+        Seed winner = board.winner();
+//        for (Point availableMove : availableMoves) {
+//            board.setCell(availableMove, Seed.CROSS);
+//            if (board.winner()
+//        }
+
+        ////////////////////////////
         boolean maximizer = currentSeed == seed;
         int score = maximizer ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         BiPredicate<Integer, Integer> predicate = (i, j) -> maximizer ? i > j : i < j;
 
-        if (winner == seed) return 10;
-        if (winner == seed.opponent()) return -10;
+        if (winner == seed) return board.getMaxMoves() + 1;
+        if (winner == seed.opponent()) return (board.getMaxMoves() + 1) * -1;
         if (winner == null && availableMoves.isEmpty()) return 0;
         assert (winner == null);
 
         for (Point move : availableMoves) {
             s++;
+            if (s % 10000000 == 0)
+                System.out.print(s / 10000000 + " ");
             board.setCell(move, currentSeed);
             int newScore = move(currentSeed.opponent(), null,
                     new Integer(alpha), new Integer(beta));

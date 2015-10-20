@@ -33,8 +33,8 @@ public class SimpleMaxMinPlayer implements Player {
         int score = maximizer ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         BiPredicate<Integer, Integer> predicate = (i, j) -> maximizer ? i > j : i < j;
 
-        if (winner == seed) return 10;
-        if (winner == seed.opponent()) return -10;
+        if (winner == seed) return board.getMaxMoves() + 1;
+        if (winner == seed.opponent()) return (board.getMaxMoves() + 1) * -1;
         if (winner == null && availableMoves.isEmpty()) return 0;
         assert (winner == null);
 

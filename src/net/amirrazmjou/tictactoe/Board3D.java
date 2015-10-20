@@ -1,6 +1,5 @@
 package net.amirrazmjou.tictactoe;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -119,6 +118,11 @@ public class Board3D implements Board {
             }
         }
         return moves;
+    }
+
+    @Override
+    public int getMaxMoves() {
+        return  cells.length * cells.length * cells.length;
     }
 
     @Override

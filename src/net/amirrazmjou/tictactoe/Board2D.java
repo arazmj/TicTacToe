@@ -64,6 +64,11 @@ class Board2D implements Board {
     }
 
     @Override
+    public int getMaxMoves() {
+        return cells.length * cells.length;
+    }
+
+    @Override
     public String toString() {
         String s = "";
         for (int x = 0; x < cells.length; x++)
