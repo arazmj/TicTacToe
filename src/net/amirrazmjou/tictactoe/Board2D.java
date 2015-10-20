@@ -3,7 +3,7 @@ package net.amirrazmjou.tictactoe;
 import java.util.LinkedList;
 import java.util.List;
 
-class Board2D implements Board {
+public class Board2D implements Board {
 
     protected Seed cells[][];
 
@@ -16,11 +16,11 @@ class Board2D implements Board {
 
     @Override
     public void setCell(Point p, Seed c) {
-        cells[p.y][p.x] = c;
+        cells[p.r][p.c] = c;
     }
 
     public Seed getCell(Point p) {
-        return cells[p.y][p.x];
+        return cells[p.r][p.c];
     }
 
     @Override
@@ -54,10 +54,10 @@ class Board2D implements Board {
 
     public List<Point> getAvailableMoves() {
         List<Point> moves = new LinkedList<>();
-        for (int x = 0; x < cells.length; x++) {
-            for (int y = 0; y < cells.length; y++) {
-                if (cells[y][x] == Seed.EMPTY)
-                    moves.add(new Point(x, y));
+        for (int r = 0; r < cells.length; r++) {
+            for (int c = 0; c < cells.length; c++) {
+                if (cells[r][c] == Seed.EMPTY)
+                    moves.add(new Point(r, c));
             }
         }
         return moves;
@@ -71,18 +71,18 @@ class Board2D implements Board {
     @Override
     public String toString() {
         String s = "";
-        for (int x = 0; x < cells.length; x++)
-            for (int y = 0; y < cells.length; y++)
-                s += String.format("%s%c", getCell(new Point(x, y)),
-                        y < cells.length  - 1 ? '|' : '\n');
+        for (int r = 0; r < cells.length; r++)
+            for (int c = 0; c < cells.length; c++)
+                s += String.format("%s%c", cells[r][c],
+                        c < cells.length  - 1 ? '|' : '\n');
         return s;
     }
 
     public boolean isFull() {
         boolean b = true;
-        for (int x = 0; x < cells.length; x++)
-            for (int y = 0; y < cells.length; y++)
-                if (cells[y][x] == Seed.EMPTY)
+        for (int r = 0; r < cells.length; r++)
+            for (int c = 0; c < cells.length; c++)
+                if (cells[c][r] == Seed.EMPTY)
                     b = false;
         return b;
     }

@@ -20,12 +20,12 @@ public class Board3D implements Board {
 
     @Override
     public void setCell(Point m, Seed c) {
-        cells[m.z][m.y][m.x] = c;
+        cells[m.l][m.r][m.c] = c;
     }
 
     @Override
     public Seed getCell(Point m) {
-        return cells[m.z][m.y][m.x];
+        return cells[m.l][m.r][m.c];
     }
 
     @Override
@@ -93,11 +93,10 @@ public class Board3D implements Board {
         for (int c = 0; c < cells.length; c++) {
             d1b = d1b && d1 == cells[c][c][c];
             d2b = d2b && d2 == cells[cells.length - 1 - c][c][c];
-
             d3b = d3b && d3 == cells[c][cells.length - 1 - c][c];
             d4b = d4b && d4 == cells[cells.length - 1 - c][cells.length - 1 - c][c];
-
         }
+
         if (d1b) return d1;
         if (d2b) return d2;
         if (d3b) return d3;
@@ -109,11 +108,11 @@ public class Board3D implements Board {
     @Override
     public List<Point> getAvailableMoves() {
         List<Point> moves = new LinkedList<>();
-        for (int x = 0; x < cells.length; x++) {
-            for (int y = 0; y < cells.length; y++) {
-                for (int z = 0; z < cells.length; z++) {
-                    if (cells[z][y][x] == Seed.EMPTY)
-                        moves.add(new Point(x, y, z));
+        for (int l = 0; l < cells.length; l++) {
+            for (int r = 0; r < cells.length; r++) {
+                for (int c = 0; c < cells.length; c++) {
+                    if (cells[l][r][c] == Seed.EMPTY)
+                        moves.add(new Point(l, r, c));
                 }
             }
         }
@@ -139,11 +138,11 @@ public class Board3D implements Board {
     @Override
     public String toString() {
         String s = "";
-        for (int z = 0; z < cells.length; z++) {
-            for (int x = 0; x < cells.length; x++)
-                for (int y = 0; y < cells.length; y++)
-                    s += String.format("%s%c", getCell(new Point(x, y, z)).toString(),
-                            y < cells.length - 1 ? '|' : '\t');
+        for (int r = 0; r < cells.length; r++) {
+            for (int l = 0; l < cells.length; l++)
+                for (int c = 0; c < cells.length; c++)
+                    s += String.format("%s%c", getCell(new Point(l, r, c)).toString(),
+                            c < cells.length - 1 ? '|' : '\t');
             s += "\n";
         }
 

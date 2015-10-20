@@ -5,23 +5,23 @@ package net.amirrazmjou.tictactoe;
  */
 
 public class Point {
-    public int x, y, z;
+    public int l, c, r;
 
-    public Point(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public Point(int l, int r, int c) {
+        this.l = l;
+        this.c = c;
+        this.r = r;
     }
 
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Point(int r, int c) {
+        this.c = c;
+        this.r = r;
     }
 
     public void set(Point p) {
-        x = p.x;
-        y = p.y;
-        z = p.z;
+        l = p.l;
+        c = p.c;
+        r = p.r;
     }
 
     public Point() {

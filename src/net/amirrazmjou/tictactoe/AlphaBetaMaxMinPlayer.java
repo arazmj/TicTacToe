@@ -28,14 +28,26 @@ public class AlphaBetaMaxMinPlayer implements Player {
 
     private int move(Seed currentSeed, Point nextMove, Integer alpha, Integer beta) {
         List<Point> availableMoves = board.getAvailableMoves();
-        ////////////////////////////
-        Seed winner = board.winner();
-//        for (Point availableMove : availableMoves) {
-//            board.setCell(availableMove, Seed.CROSS);
-//            if (board.winner()
-//        }
+        // TODO: Immediate win block / check for availability of at least 2 cells
+        //////////////////////////////////////////////////////
+        for (Seed thisSeed : new Seed[]{Seed.CROSS, Seed.NOUGHT}) {
+            for (Point move : availableMoves) {
+                board.setCell(move, thisSeed);
+                Seed winner = board.winner();
+                if (winner != null) {
+                    // no matter we win or we lose
+                    if (nextMove != null)
+                        nextMove.set(move);
+                    board.setCell(move, Seed.EMPTY);
+                    if (winner == seed) return board.getMaxMoves() + 1;
+                    if (winner == seed.opponent()) return (board.getMaxMoves() + 1) * -1;
+                }
+                board.setCell(move, Seed.EMPTY);
+            }
+        }
+        //////////////////////////////////////////////////////
 
-        ////////////////////////////
+        Seed winner = board.winner();
         boolean maximizer = currentSeed == seed;
         int score = maximizer ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         BiPredicate<Integer, Integer> predicate = (i, j) -> maximizer ? i > j : i < j;

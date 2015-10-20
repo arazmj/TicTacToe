@@ -20,17 +20,17 @@ public class HumanPlayer implements Player {
 
         do {
             if (Board3D.class.isInstance(board)) {
-                System.out.print("Enter x, y, z of your move: ");
-                int x = scanner.nextInt();
-                int y = scanner.nextInt();
-                int z = scanner.nextInt();
-                move = new Point(x, y, z);
+                System.out.print("Enter level, row, and column your move: ");
+                int l = scanner.nextInt();
+                int r = scanner.nextInt();
+                int c = scanner.nextInt();
+                move = new Point(l, r, c);
             }
             else {
-                System.out.print("Enter x, y of your move: ");
-                int x = scanner.nextInt();
-                int y = scanner.nextInt();
-                move = new Point(x, y);
+                System.out.print("Enter row, and column of your move: ");
+                int r = scanner.nextInt();
+                int c = scanner.nextInt();
+                move = new Point(r, c);
             }
             if (board.getCell(move) == Seed.EMPTY)
                 break;

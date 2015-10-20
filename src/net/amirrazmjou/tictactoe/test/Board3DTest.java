@@ -118,7 +118,6 @@ public class Board3DTest extends TestCase {
         if (board12.winner() != Seed.NOUGHT)
             throw new Exception("No winner on simple diagonal arrangement.");
 
-        System.out.println(board12);
 
     }
 }

@@ -1,72 +1,38 @@
 
 package net.amirrazmjou.tictactoe;
 
-import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
 
-    public static void main(String[] args) {
-        IsomorphicBoard3D board = new IsomorphicBoard3D(4);
+    public static void main(String[] args) throws Exception {
+//        IsomorphicBoard3D board = new IsomorphicBoard3D(4);
+        Board3D board = new Board3D(3);
 
-        board.setCell(new Point(0, 0, 0), Seed.CROSS);
-        board.setCell(new Point(0, 0, 1), Seed.NOUGHT);
-        board.setCell(new Point(0, 2, 0), Seed.CROSS);
-        board.setCell(new Point(0, 1, 0), Seed.NOUGHT);
-        board.setCell(new Point(0, 2, 3), Seed.CROSS);
-        board.setCell(new Point(0, 2, 2), Seed.NOUGHT);
-        board.setCell(new Point(0, 0, 2), Seed.CROSS);
-        board.setCell(new Point(0, 0, 3), Seed.CROSS);
-        board.setCell(new Point(0, 0, 3), Seed.NOUGHT);
-        board.setCell(new Point(0, 3, 0), Seed.NOUGHT);
-        board.setCell(new Point(1, 1, 1), Seed.CROSS);
-        board.setCell(new Point(1, 1, 0), Seed.NOUGHT);
-        board.setCell(new Point(1, 2, 2), Seed.CROSS);
-        board.setCell(new Point(1, 2, 2), Seed.NOUGHT);
-        board.setCell(new Point(1, 2, 3), Seed.CROSS);
-
-        board.setCell(new Point(1, 0, 0), Seed.NOUGHT);
-        board.setCell(new Point(1, 0, 2), Seed.CROSS);
-        board.setCell(new Point(1, 0, 2), Seed.NOUGHT);
-        board.setCell(new Point(1, 0, 3), Seed.CROSS);
-
-        board.setCell(new Point(1, 2, 3), Seed.NOUGHT);
-        board.setCell(new Point(1, 3, 2), Seed.CROSS);
-        board.setCell(new Point(1, 3, 2), Seed.NOUGHT);
-        board.setCell(new Point(2, 1, 1), Seed.CROSS);
-        board.setCell(new Point(2, 1, 0), Seed.NOUGHT);
-        board.setCell(new Point(2, 2, 2), Seed.CROSS);
-        board.setCell(new Point(2, 1, 3), Seed.NOUGHT);
-        board.setCell(new Point(2, 2, 1), Seed.CROSS);
-        board.setCell(new Point(2, 2, 0), Seed.NOUGHT);
-        board.setCell(new Point(2, 3, 1), Seed.CROSS);
-        board.setCell(new Point(2, 3, 0), Seed.NOUGHT);
-        board.setCell(new Point(2, 3, 1), Seed.CROSS);
-        board.setCell(new Point(2, 3, 0), Seed.NOUGHT);
-        board.setCell(new Point(3, 1, 1), Seed.CROSS);
-        board.setCell(new Point(3, 3, 0), Seed.NOUGHT);
-        board.setCell(new Point(3, 2, 2), Seed.CROSS);
-        board.setCell(new Point(3, 2, 2), Seed.NOUGHT);
-        board.setCell(new Point(3, 2, 3), Seed.CROSS);
-        board.setCell(new Point(3, 2, 3), Seed.NOUGHT);
-        board.setCell(new Point(3, 0, 0), Seed.CROSS);
-        board.setCell(new Point(3, 0, 1), Seed.NOUGHT);
-        board.setCell(new Point(3, 0, 2), Seed.CROSS);
-        board.setCell(new Point(3, 0, 3), Seed.NOUGHT);
-        board.setCell(new Point(3, 1, 2), Seed.CROSS);
-        board.setCell(new Point(3, 1, 3), Seed.NOUGHT);
-
-        Random random = new Random();
-        for (int x = 0; x < 10; x++) {
-            List<Point> availableMoves = board.getAvailableMoves();
-            int size = availableMoves.size();
-            int r = random. nextInt(size);
-            board.setCell(availableMoves.get(r), Math.random() < 0.5 ? Seed.NOUGHT : Seed.CROSS);
-            if (board.winner() != null) {
-                board.setCell(availableMoves.get(r), Seed.EMPTY);
-            }
-        }
+//        board.generateIsos();
+//
+//        Random random = new Random();
+//        random.setSeed(0);
+//        boolean b = false;
+//        for (int x = 0; x < 18; x++) {
+//            List<Point> availableMoves = board.getAvailableMoves();
+//            int size = availableMoves.size();
+//            int r = random. nextInt(size);
+//            board.setCell(availableMoves.get(r), b ? Seed.NOUGHT : Seed.CROSS);
+//            if (board.winner() != null) {
+//                board.setCell(availableMoves.get(r), Seed.EMPTY);
+//
+//            }
+//            else {
+//                b = !b;
+//                int i = board.qb_find_canonical_iso();
+//                System.out.println();
+//                System.out.println();
+//                System.out.println(board);
+//                for (int j = 0; j < 192; j++)
+//                System.out.println(i + ":" + board.getBoard(j).getIsoPosition());
+//            }
+//        }
 
         System.out.println(board.getAvailableMoves().size());
 
