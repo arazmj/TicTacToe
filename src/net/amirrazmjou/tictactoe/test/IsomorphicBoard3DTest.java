@@ -50,18 +50,18 @@ public class IsomorphicBoard3DTest extends TestCase {
 //            }
 //            System.out.println();
 //        }
-        System.out.println(board);
-        int i = board.qb_find_canonical_iso();
-        System.out.println(i);
-        for ( i = 0; i < 193; i++) {
-            String s = board.getIsoBoard(i).getIsoPosition();
-            if (s.startsWith("x"))
-                System.out.println(i + ":" + s);
-        }
+//        System.out.println(board);
+//        int i = board.getCanonicalId();
+//        System.out.println(i);
+//        for ( i = 0; i < 193; i++) {
+//            String s = board.getCanonicalPosition2();
+//            if (s.startsWith("x"))
+//                System.out.println(i + ":" + s);
+//        }
 
     }
 
-    public void testQb_find_canonical_iso() throws Exception {
+    public void testGetCanonicalPosition2() throws Exception {
         IsomorphicBoard3D board = new IsomorphicBoard3D(4);
         board.generateIsos();
         board.setCell(new Point(1, 0, 0), Seed.NOUGHT);
@@ -75,7 +75,7 @@ public class IsomorphicBoard3DTest extends TestCase {
         board.setCell(new Point(3, 1, 3), Seed.CROSS);
         board.setCell(new Point(3, 3, 3), Seed.CROSS);
 
-        String s = board.getCannonicalPosition();
+        String s = board.getCanonicalPosition2();
 
 
         IsomorphicBoard3D board2 = new IsomorphicBoard3D(4);
@@ -92,7 +92,7 @@ public class IsomorphicBoard3DTest extends TestCase {
         board2.setCell(new Point(2, 3, 2), Seed.NOUGHT);
         board2.setCell(new Point(2, 3, 3), Seed.NOUGHT);
 
-        String s2 = board2.getCannonicalPosition();
+        String s2 = board2.getCanonicalPosition2();
 
         if (!s.equals(s2) || s.isEmpty() || s2.isEmpty())
             throw new Exception("Mirrored isos are not equal");

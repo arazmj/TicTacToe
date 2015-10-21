@@ -5,13 +5,16 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 /**
- * Created by Amir Razmjou on 10/13/15.
+ * Created by Amir Razmjou on 10/21/15.
  */
 
-public class AlphaBetaMaxMinPlayer implements Player {
+@SuppressWarnings("Duplicates")
+public class TimeLimitedPlayer implements Player {
+
+    final long timeLimit = 55000;
     private Seed seed;
-    private Board board;
-    public AlphaBetaMaxMinPlayer(Board board, Seed seed) {
+    private Board3D board;
+    public TimeLimitedPlayer(Board3D board, Seed seed) {
         this.seed = seed;
         this.board = board;
     }
@@ -20,16 +23,13 @@ public class AlphaBetaMaxMinPlayer implements Player {
     @Override
     public Point move() {
         long startTime = System.currentTimeMillis();
-
         Point nextMove = new Point();
         s = 0;
-        move(seed, nextMove, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        move(seed, startTime, nextMove, Integer.MIN_VALUE, Integer.MAX_VALUE);
         System.out.println("States visited: " + s + " Cache Hits: " + cacheHit);
         board.setCell(nextMove, seed);
         cacheHit = 0;
-
         long endTime = System.currentTimeMillis();
-
         long duration = (endTime - startTime);  //divide by 1000000 to get milliseconds.
         System.out.println("Execution time: " + duration / 1000);
         return nextMove;
@@ -38,18 +38,20 @@ public class AlphaBetaMaxMinPlayer implements Player {
     private HashMap<String, Integer> cache = new HashMap<>();
     int cacheHit = 0;
 
-    private int move(Seed currentSeed, Point nextMove, Integer alpha, Integer beta) {
+    private int move(Seed currentSeed, long startTime, Point nextMove, Integer alpha, Integer beta) {
+
         /*********************************************************/
         IsomorphicBoard3D isoBoard = null;
         String cannonicalPosition;
         if (IsomorphicBoard3D.class.isInstance(board)) {
             isoBoard = (IsomorphicBoard3D)board;
         }
-         /*********************************************************/
+        /*********************************************************/
 
         List<Point> availableMoves = board.getAvailableMoves();
         // TODO: Immediate win block / check for availability of at least 2 cells
         //////////////////////////////////////////////////////
+        int extermom = board.getMaxMoves() + 1;
         for (Seed thisSeed : new Seed[]{Seed.CROSS, Seed.NOUGHT}) {
             for (Point move : availableMoves) {
                 board.setCell(move, thisSeed);
@@ -59,8 +61,8 @@ public class AlphaBetaMaxMinPlayer implements Player {
                     if (nextMove != null)
                         nextMove.set(move);
                     board.setCell(move, Seed.EMPTY);
-                    if (winner == seed) {return board.getMaxMoves() + 1; }
-                    if (winner == seed.opponent()) { return (board.getMaxMoves() + 1) * -1; }
+                    if (winner == seed) {return extermom; }
+                    if (winner == seed.opponent()) { return extermom * -1; }
                 }
                 board.setCell(move, Seed.EMPTY);
             }
@@ -72,9 +74,14 @@ public class AlphaBetaMaxMinPlayer implements Player {
         int score = maximizer ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         BiPredicate<Integer, Integer> predicate = (i, j) -> maximizer ? i > j : i < j;
 
-        if (winner == seed) return board.getMaxMoves() + 1;
-        if (winner == seed.opponent()) return (board.getMaxMoves() + 1) * -1;
+        if (winner == seed) return extermom;
+        if (winner == seed.opponent()) return extermom * -1;
         if (winner == null && availableMoves.isEmpty()) return 0;
+
+        if (System.currentTimeMillis() > startTime + timeLimit) {
+            return board.evaluate(seed);
+        }
+
         assert (winner == null);
 
         for (Point move : availableMoves) {
@@ -93,10 +100,14 @@ public class AlphaBetaMaxMinPlayer implements Player {
                 cacheHit++;
             }
             else {
-                newScore = move(currentSeed.opponent(), null,
+                newScore = move(currentSeed.opponent(), startTime, null,
                         new Integer(alpha), new Integer(beta)); // we need a copy of alpha-beta
+                // don't cache near leaf states as they are easier to
+                // recompute than checking  all isomorphisms
                 if (availableMoves.size() > 10)
-                    cache.put(cannonicalPosition, newScore);
+                    // don't cache estimates
+                    if (newScore == extermom || newScore == extermom * -1)
+                        cache.put(cannonicalPosition, newScore);
             }
             if (predicate.test(newScore, score)) {
                 if (nextMove != null)

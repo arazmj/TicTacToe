@@ -19,23 +19,28 @@ public class HumanPlayer implements Player {
         Point move;
 
         do {
-            if (Board3D.class.isInstance(board)) {
-                System.out.print("Enter level, row, and column your move: ");
-                int l = scanner.nextInt();
-                int r = scanner.nextInt();
-                int c = scanner.nextInt();
-                move = new Point(l, r, c);
+            try {
+                if (Board3D.class.isInstance(board)) {
+                    System.out.print("Enter level, row, and column your move: ");
+                    int l = scanner.nextInt();
+                    int r = scanner.nextInt();
+                    int c = scanner.nextInt();
+                    move = new Point(l, r, c);
+                } else {
+                    System.out.print("Enter row, and column of your move: ");
+                    int r = scanner.nextInt();
+                    int c = scanner.nextInt();
+                    move = new Point(r, c);
+                }
+                if (board.getCell(move) == Seed.EMPTY)
+                    break;
+                else
+                    System.out.println("Bad input the cell is already taken...");
+
+            } catch (Exception e) {
+                System.out.println("Bad input.");
+                scanner.nextLine();
             }
-            else {
-                System.out.print("Enter row, and column of your move: ");
-                int r = scanner.nextInt();
-                int c = scanner.nextInt();
-                move = new Point(r, c);
-            }
-            if (board.getCell(move) == Seed.EMPTY)
-                break;
-            else
-                System.out.println("Bad input the cell is already taken...");
         }  while (true);
         board.setCell(move, seed);
         return null;

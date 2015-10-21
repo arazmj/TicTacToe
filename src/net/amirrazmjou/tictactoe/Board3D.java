@@ -1,7 +1,7 @@
 package net.amirrazmjou.tictactoe;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by Amir Razmjou on 10/17/15.
@@ -42,6 +42,103 @@ public class Board3D implements Board {
             }
         }
         return false;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public int evaluate(Seed seed) {
+        // TODO: Can you write a general purpose winner function for a
+        // TODO: hypercube with arbitrary dimension number
+        LinkedList<LinkedList<Seed>> lines = new LinkedList<>();
+
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells.length; j++) {
+                LinkedList<Seed> line1 = new LinkedList<>();
+                LinkedList<Seed> line2 = new LinkedList<>();
+                LinkedList<Seed> line3 = new LinkedList<>();
+                for (int k = 0; k < cells.length; k++) {
+                    line1.add(cells[j][k][i]);
+                    line2.add(cells[k][j][i]);
+                    line3.add(cells[j][i][k]);
+                }
+                lines.add(line1);
+                lines.add(line2);
+                lines.add(line3);
+            }
+
+            LinkedList<Seed> line1 = new LinkedList<>();
+            LinkedList<Seed> line2 = new LinkedList<>();
+            LinkedList<Seed> line3 = new LinkedList<>();
+            LinkedList<Seed> line4 = new LinkedList<>();
+            LinkedList<Seed> line5 = new LinkedList<>();
+            LinkedList<Seed> line6 = new LinkedList<>();
+            for (int c = 0; c < cells.length; c++) {
+                line1.add(cells[i][c][c]);
+                line2.add(cells[i][cells.length - 1 - c][c]);
+                line3.add(cells[c][i][c]);
+                line4.add(cells[cells.length - 1 - c][i][c]);
+                line5.add(cells[c][c][i]);
+                line6.add(cells[cells.length - 1 - c][c][i]);
+            }
+            lines.add(line1);
+            lines.add(line2);
+            lines.add(line3);
+            lines.add(line4);
+            lines.add(line5);
+            lines.add(line6);
+        }
+
+        LinkedList<Seed> line1 = new LinkedList<>();
+        LinkedList<Seed> line2 = new LinkedList<>();
+        LinkedList<Seed> line3 = new LinkedList<>();
+        LinkedList<Seed> line4 = new LinkedList<>();
+
+        for (int c = 0; c < cells.length; c++) {
+            line1.add(cells[c][c][c]);
+            line2.add(cells[cells.length - 1 - c][c][c]);
+            line3.add(cells[c][cells.length - 1 - c][c]);
+            line4.add(cells[cells.length - 1 - c][cells.length - 1 - c][c]);
+        }
+
+        lines.add(line1);
+        lines.add(line2);
+        lines.add(line3);
+        lines.add(line4);
+
+        int crossScore = 0, noughtScore = 0;
+        for (LinkedList<Seed> l : lines) {
+//            for (Seed seed : l) {
+//                if (seed == Seed.EMPTY)
+//                    System.out.print("_");
+//                else
+//                    System.out.print(seed);
+//            }
+//            System.out.print(" : ");
+            if (l.contains(Seed.CROSS) && l.contains(Seed.NOUGHT))
+            {}
+            else if (l.contains(Seed.CROSS))
+            {
+//                System.out.print(getMaxMoves() * Collections.frequency(l, Seed.CROSS) / cells.length);
+                crossScore += Math.pow(Collections.frequency(l, Seed.CROSS), 2);
+            }
+            else if (l.contains(Seed.NOUGHT)) {
+//                System.out.print(getMaxMoves() * Collections.frequency(l, Seed.NOUGHT) / cells.length);
+                noughtScore += Math.pow(Collections.frequency(l, Seed.NOUGHT), 2);
+            }
+//            System.out.println();
+        }
+//        System.out.println(String.format("Cross %d Nought %d size %d", crossScore, noughtScore, lines.size()));
+
+
+        Seed winner;
+        if (crossScore > noughtScore)
+            winner = Seed.CROSS;
+        else
+            winner = Seed.NOUGHT;
+
+        if (winner == seed)
+            return Math.abs(crossScore - noughtScore);
+        else
+            return Math.abs(crossScore - noughtScore) * -1;
     }
 
     @Override

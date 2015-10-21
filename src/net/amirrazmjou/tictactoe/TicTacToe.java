@@ -1,4 +1,3 @@
-
 package net.amirrazmjou.tictactoe;
 
 import java.util.List;
@@ -11,25 +10,23 @@ public class TicTacToe {
         IsomorphicBoard3D board = new IsomorphicBoard3D(4);
         board.generateIsos();
 
-
-//        putRandomMoves(board, 18);
-
+       // putRandomMoves(board, 16, 0);
         Scanner scanner = new Scanner(System.in);
-
         System.out.println(board);
+
         // (a) From keyboard input, assign your program to be player X or
         // player O (the opponent respectively be- comes player O or X).
         Player[] players = new Player[2];
         System.out.print("Which player do you like the AI become O/X (O)?");
         if (scanner.next().toUpperCase().trim().contains("X")) {
             System.out.println("AI player assigned to be X");
-            players[0] = new AlphaBetaMaxMinPlayer(board, Seed.CROSS);
+            players[0] = new TimeLimitedPlayer(board, Seed.CROSS);
             players[1] = new HumanPlayer(board, Seed.NOUGHT);
         }
         else {
             System.out.println("AI player assigned to be O");
             players[0] = new HumanPlayer(board, Seed.CROSS);
-            players[1] = new AlphaBetaMaxMinPlayer(board, Seed.NOUGHT);
+            players[1] = new TimeLimitedPlayer(board, Seed.NOUGHT);
         }
 
         System.out.println(board);
@@ -44,12 +41,11 @@ public class TicTacToe {
         } while (true);
 
         System.out.println("The winner is " + board.winner());
-
     }
 
-    private static void putRandomMoves(Board3D board, int n) {
+    public static void putRandomMoves(Board3D board, int n, int seed) {
         Random random = new Random();
-        random.setSeed(0);
+        random.setSeed(seed);
         boolean b = true;
         for (int x = 0; x < n; x++) {
             List<Point> availableMoves = board.getAvailableMoves();

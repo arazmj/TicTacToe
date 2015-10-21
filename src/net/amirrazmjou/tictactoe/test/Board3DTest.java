@@ -130,4 +130,14 @@ public class Board3DTest extends TestCase {
 
 
     }
+
+    public void testEvaluate() throws Exception {
+        Board3D board = new Board3D(4);
+        TicTacToe.putRandomMoves(board, 16, 0);
+
+
+//        System.out.println(board);
+//        board.evaluate();
+
+    }
 }
