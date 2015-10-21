@@ -1,45 +1,22 @@
 
 package net.amirrazmjou.tictactoe;
 
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
 
     public static void main(String[] args) throws Exception {
-//        IsomorphicBoard3D board = new IsomorphicBoard3D(4);
-        Board3D board = new Board3D(3);
+        IsomorphicBoard3D board = new IsomorphicBoard3D(4);
+        board.generateIsos();
 
-//        board.generateIsos();
-//
-//        Random random = new Random();
-//        random.setSeed(0);
-//        boolean b = false;
-//        for (int x = 0; x < 18; x++) {
-//            List<Point> availableMoves = board.getAvailableMoves();
-//            int size = availableMoves.size();
-//            int r = random. nextInt(size);
-//            board.setCell(availableMoves.get(r), b ? Seed.NOUGHT : Seed.CROSS);
-//            if (board.winner() != null) {
-//                board.setCell(availableMoves.get(r), Seed.EMPTY);
-//
-//            }
-//            else {
-//                b = !b;
-//                int i = board.qb_find_canonical_iso();
-//                System.out.println();
-//                System.out.println();
-//                System.out.println(board);
-//                for (int j = 0; j < 192; j++)
-//                System.out.println(i + ":" + board.getBoard(j).getIsoPosition());
-//            }
-//        }
 
-        System.out.println(board.getAvailableMoves().size());
+//        putRandomMoves(board, 18);
 
         Scanner scanner = new Scanner(System.in);
 
-//        System.out.println(board);
-//
+        System.out.println(board);
         // (a) From keyboard input, assign your program to be player X or
         // player O (the opponent respectively be- comes player O or X).
         Player[] players = new Player[2];
@@ -67,5 +44,24 @@ public class TicTacToe {
         } while (true);
 
         System.out.println("The winner is " + board.winner());
+
+    }
+
+    private static void putRandomMoves(Board3D board, int n) {
+        Random random = new Random();
+        random.setSeed(0);
+        boolean b = true;
+        for (int x = 0; x < n; x++) {
+            List<Point> availableMoves = board.getAvailableMoves();
+            int size = availableMoves.size();
+            int r = random. nextInt(size);
+            board.setCell(availableMoves.get(r), b ? Seed.NOUGHT : Seed.CROSS);
+            if (board.winner() != null) {
+                board.setCell(availableMoves.get(r), Seed.EMPTY);
+            }
+            else {
+                b = !b;
+            }
+        }
     }
 }

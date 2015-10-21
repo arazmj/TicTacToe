@@ -28,6 +28,22 @@ public class Board3D implements Board {
         return cells[m.l][m.r][m.c];
     }
 
+
+    public boolean immediateWinner() {
+        List<Point> availableMoves = getAvailableMoves();
+        for (Seed thisSeed : new Seed[]{Seed.CROSS, Seed.NOUGHT}) {
+            for (Point move : availableMoves) {
+                setCell(move, thisSeed);
+                Seed winner = winner();
+                if (winner != null) {
+                    return true;
+                }
+                setCell(move, Seed.EMPTY);
+            }
+        }
+        return false;
+    }
+
     @Override
     public Seed winner() {
         // TODO: Can you write a general purpose winner function for a

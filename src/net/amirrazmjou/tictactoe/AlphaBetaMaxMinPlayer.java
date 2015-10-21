@@ -1,5 +1,6 @@
 package net.amirrazmjou.tictactoe;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiPredicate;
 
@@ -21,12 +22,23 @@ public class AlphaBetaMaxMinPlayer implements Player {
         Point nextMove = new Point();
         s = 0;
         move(seed, nextMove, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        System.out.println("States visited: " + s);
+        System.out.println("States visited: " + s + " Cache Hits: " + cacheHit);
         board.setCell(nextMove, seed);
         return nextMove;
     }
 
+    private HashMap<String, Integer> cache = new HashMap<>();
+    int cacheHit = 0;
+
     private int move(Seed currentSeed, Point nextMove, Integer alpha, Integer beta) {
+        /*********************************************************/
+        IsomorphicBoard3D isoBoard = null;
+        String cannonicalPosition;
+        if (IsomorphicBoard3D.class.isInstance(board)) {
+            isoBoard = (IsomorphicBoard3D)board;
+        }
+         /*********************************************************/
+
         List<Point> availableMoves = board.getAvailableMoves();
         // TODO: Immediate win block / check for availability of at least 2 cells
         //////////////////////////////////////////////////////
@@ -39,8 +51,8 @@ public class AlphaBetaMaxMinPlayer implements Player {
                     if (nextMove != null)
                         nextMove.set(move);
                     board.setCell(move, Seed.EMPTY);
-                    if (winner == seed) return board.getMaxMoves() + 1;
-                    if (winner == seed.opponent()) return (board.getMaxMoves() + 1) * -1;
+                    if (winner == seed) {return board.getMaxMoves() + 1; }
+                    if (winner == seed.opponent()) { return (board.getMaxMoves() + 1) * -1; }
                 }
                 board.setCell(move, Seed.EMPTY);
             }
@@ -59,11 +71,23 @@ public class AlphaBetaMaxMinPlayer implements Player {
 
         for (Point move : availableMoves) {
             s++;
-            if (s % 10000000 == 0)
-                System.out.print(s / 10000000 + " ");
+            if (s % 10000000 == 0) {
+                //System.out.print(s / 10000000 + " ");
+                System.out.print(cacheHit + " ");
+            }
             board.setCell(move, currentSeed);
-            int newScore = move(currentSeed.opponent(), null,
-                    new Integer(alpha), new Integer(beta));
+            cannonicalPosition = isoBoard.getCannonicalPosition();
+
+            int newScore;
+            if (cache.keySet().contains(cannonicalPosition)) {
+                newScore = cache.get(cannonicalPosition);
+                cacheHit++;
+            }
+            else {
+                newScore = move(currentSeed.opponent(), null,
+                        new Integer(alpha), new Integer(beta)); // we need a copy of alpha-beta
+                cache.put(cannonicalPosition, newScore);
+            }
             if (predicate.test(newScore, score)) {
                 if (nextMove != null)
                     nextMove.set(move);

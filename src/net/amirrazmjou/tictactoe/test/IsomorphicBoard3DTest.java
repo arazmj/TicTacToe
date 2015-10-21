@@ -3,8 +3,6 @@ package net.amirrazmjou.tictactoe.test;
 import junit.framework.TestCase;
 import net.amirrazmjou.tictactoe.*;
 
-import java.util.Arrays;
-
 /**
  * Created by Amir Razmjou on 10/19/15.
  */
@@ -56,10 +54,49 @@ public class IsomorphicBoard3DTest extends TestCase {
         int i = board.qb_find_canonical_iso();
         System.out.println(i);
         for ( i = 0; i < 193; i++) {
-            String s = board.getBoard(i).getIsoPosition();
+            String s = board.getIsoBoard(i).getIsoPosition();
             if (s.startsWith("x"))
                 System.out.println(i + ":" + s);
         }
+
+    }
+
+    public void testQb_find_canonical_iso() throws Exception {
+        IsomorphicBoard3D board = new IsomorphicBoard3D(4);
+        board.generateIsos();
+        board.setCell(new Point(1, 0, 0), Seed.NOUGHT);
+        board.setCell(new Point(1, 0, 1), Seed.NOUGHT);
+        board.setCell(new Point(1, 2, 2), Seed.NOUGHT);
+        board.setCell(new Point(1, 2, 3), Seed.NOUGHT);
+        board.setCell(new Point(2, 1, 1), Seed.CROSS);
+        board.setCell(new Point(2, 3, 2), Seed.CROSS);
+        board.setCell(new Point(3, 0, 2), Seed.NOUGHT);
+        board.setCell(new Point(3, 1, 1), Seed.CROSS);
+        board.setCell(new Point(3, 1, 3), Seed.CROSS);
+        board.setCell(new Point(3, 3, 3), Seed.CROSS);
+
+        String s = board.getCannonicalPosition();
+
+
+        IsomorphicBoard3D board2 = new IsomorphicBoard3D(4);
+        board2.generateIsos();
+
+        board2.setCell(new Point(0, 0, 0), Seed.CROSS);
+        board2.setCell(new Point(0, 2, 0), Seed.CROSS);
+        board2.setCell(new Point(0, 2, 2), Seed.CROSS);
+        board2.setCell(new Point(0, 3, 1), Seed.NOUGHT);
+        board2.setCell(new Point(1, 0, 1), Seed.CROSS);
+        board2.setCell(new Point(1, 2, 2), Seed.CROSS);
+        board2.setCell(new Point(2, 1, 0), Seed.NOUGHT);
+        board2.setCell(new Point(2, 1, 1), Seed.NOUGHT);
+        board2.setCell(new Point(2, 3, 2), Seed.NOUGHT);
+        board2.setCell(new Point(2, 3, 3), Seed.NOUGHT);
+
+        String s2 = board2.getCannonicalPosition();
+
+        if (!s.equals(s2) || s.isEmpty() || s2.isEmpty())
+            throw new Exception("Mirrored isos are not equal");
+
 
     }
 }

@@ -118,6 +118,16 @@ public class Board3DTest extends TestCase {
         if (board12.winner() != Seed.NOUGHT)
             throw new Exception("No winner on simple diagonal arrangement.");
 
+        Board3D board13 = new Board3D(4);
+        board13.setCell(new Point(0, 1, 0), Seed.CROSS);
+        board13.setCell(new Point(1, 1, 1), Seed.CROSS);
+        board13.setCell(new Point(2, 1, 2), Seed.CROSS);
+        board13.setCell(new Point(3, 1, 3), Seed.CROSS);
+        if (board13.winner() != Seed.CROSS) {
+            throw new Exception("Cheap diagonal on 4x4x4");
+        }
+
+
 
     }
 }
